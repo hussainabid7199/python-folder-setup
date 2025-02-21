@@ -24,7 +24,7 @@ python-folder-setup/
 │   ├── IAccountInterface.py
 ├── jwt-config/
 ├── lambda/
-│   ├── indexer-lembda.py
+│   ├── indexer-lambda.py
 ├── main.py
 ├── apprunner.yaml
 ├── README.md
