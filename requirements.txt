@@ -12,3 +12,4 @@ openai==0.28
 PyPDF2
 numpy
 python-multipart
+dependency-injector
