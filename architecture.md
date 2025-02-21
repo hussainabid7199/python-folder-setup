@@ -3,7 +3,7 @@ python-folder-setup/
 ├── .gitignore
 ├── apprunner.yaml
 ├── controller/
-│   ├── Account.py
+│   ├── AccountController.py
 ├── db/
 │   ├── connection.py
 │   ├── models/
