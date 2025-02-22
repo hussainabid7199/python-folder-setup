@@ -1,0 +1,15 @@
+fastapi==0.115.0
+uvicorn==0.30.6
+pydantic==2.9.2
+pymongo==4.8.0
+redis==5.0.8
+boto3==1.35.19
+opensearch-py==2.4.2
+pinecone-client==5.0.1
+sentence-transformers==3.1.1
+python-dotenv==1.0.1
+openai==0.28
+PyPDF2
+numpy
+python-multipart
+dependency-injector
