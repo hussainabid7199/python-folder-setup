@@ -12,6 +12,8 @@ app.add_middleware(ClientIdMiddleware)
 
 container = Container()
 
+container.wire(modules=["controller.AccountController"])
+
 routes(app)
 
 if __name__ == "__main__":

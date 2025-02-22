@@ -13,12 +13,10 @@ class AccountService(IAccountService):
         if  exsisting_user:
             raise HTTPException(status_code=400, detail="User found with this email")
         
-        if exsisting_user["is_verified"]:
-            raise HTTPException(status_code=400, detail="Already registered")
         
         hashedPassword = bcrypt.hashpw(user_data.password.encode("utf-8"), bcrypt.gensalt())
         user_data = {
-            "useranme": user_data.useranme,
+            "useranme": user_data.username,
             "email": user_data.email,
             "password": hashedPassword.decode("utf-8"),
             "is_verified": False
