@@ -20,3 +20,7 @@ def login(
     account_service: IAccountService = Depends(Provide[Container.account_service])
 ):
     return account_service.login(credentials)
+
+@router.get("/ping")
+def ping():
+    return {"message": "Pong!"}
