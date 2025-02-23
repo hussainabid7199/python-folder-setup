@@ -1,33 +1,36 @@
 from typing import Dict
 import bcrypt
 from fastapi import HTTPException
-from dtos.RegisterDto import RegisterDto
+from db.collection.UserCollection import UserCollection
+from dtos.ResponseDto import ResponseDto
+from dtos.UserDto import UserDto
 from interface.IAccountInterface import IAccountService
+from models.RegisterModel import RegisterModel
 
 class AccountService(IAccountService):
     def __init__(self, db):
         self.db = db.get_collection('users')
 
-    def register(self, user_data: RegisterDto) -> Dict:
-        exsisting_user = self.db.find_one({"email": user_data.email})
+    def register(self, model: RegisterModel) -> UserDto:
+        exsisting_user = self.db.find_one({"email": model.email})
         if  exsisting_user:
             raise HTTPException(status_code=400, detail="User found with this email")
         
         
-        hashedPassword = bcrypt.hashpw(user_data.password.encode("utf-8"), bcrypt.gensalt())
+        hashedPassword = bcrypt.hashpw(model.password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8");
+        
         user_data = {
-            "useranme": user_data.username,
-            "email": user_data.email,
-            "password": hashedPassword.decode("utf-8"),
+            "name": model.name,
+            "email": model.email,
+            "password": hashedPassword,
             "is_verified": False
         }
+
+        # result = UserCollection();
+        # result.name = model.username
         
-        new_user = self.db.insert_one(user_data)
-        return {
-            "status": 200,
-            "message": "User Registered successfully",
-            "new_user": str(new_user.inserted_id),
-        }
+        response: UserDto = self.db.insert_one(user_data);
+        return response;
    
     def login(self, credentials: Dict) -> Dict:
         # Validate user credentials (Example)

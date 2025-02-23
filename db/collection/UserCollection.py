@@ -1,16 +1,18 @@
+from mongoengine import Document, StringField, BooleanField
+from mongoengine import connect
+import os
+from dotenv import load_dotenv
 
-# from dependency_injector import containers, providers
-# from db.connection import dbConnection
+dotenv_path = ".env"
+load_dotenv(dotenv_path=dotenv_path)
 
-# db = providers.Singleton(dbConnection)  
-# class UserCollection:
-#      def create_collection(self, collection_name):
-#         if collection_name not in self.db.list_collection_names():
-#             self.db.create_collection(collection_name)
-#             print(f"Creating collection '{collection_name}'")
-#         else:
-#             print("Collection '{collection_name}' already exists")
-#             return self.db[collection_name]
+MONGO_DB_URI = os.getenv("MONGO_DB_URI")
+MONGO_DB_NAME = os.getenv("MONGO_DB_NAME")
 
-#     def get_collection(self, collection_name):
-#         return self.db[collection_name]
+connect(MONGO_DB_NAME, host=MONGO_DB_URI)
+class UserCollection(Document):
+    name = StringField(required=True)
+    email = StringField(required=True)
+    password = StringField(required=True)
+    is_verified = BooleanField(required=True)
+    otp = StringField(required=False)
