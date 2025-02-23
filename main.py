@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from middleware import ClientIdMiddleware
+from middleware.ClientIdMiddleware import ClientIdMiddleware
 from routes.routes import routes
 from diInjector.diExtension import Container
 from dotenv import load_dotenv
@@ -8,9 +8,11 @@ load_dotenv()
 
 app = FastAPI()
 
-# app.add_middleware(ClientIdMiddleware)
+app.add_middleware(ClientIdMiddleware)
 
 container = Container()
+
+container.wire(modules=["controller.AccountController"])
 
 routes(app)
 
