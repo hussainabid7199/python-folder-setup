@@ -16,4 +16,4 @@ class ClientIdMiddleware(BaseHTTPMiddleware):
                 content={"detail": "Invalid or missing client ID"}
             )
         response = await call_next(request)
-        return response
+        return response;
