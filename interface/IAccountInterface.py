@@ -1,11 +1,13 @@
 from abc import ABC, abstractmethod
 from typing import Dict
+from dtos.ResponseDto import ResponseDto
+from dtos.UserDto import UserDto
+from models.RegisterModel import RegisterModel
 
-from dtos.RegisterDto import RegisterDto
 
 class IAccountService(ABC):
     @abstractmethod
-    def register(self, user_data: RegisterDto) -> Dict:
+    def register(self, user_data: RegisterModel) -> UserDto:
         pass
 
     @abstractmethod
