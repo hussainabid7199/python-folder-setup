@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, BackgroundTasks, Depends
 from dependency_injector.wiring import inject, Provide
 from dtos.UserDto import UserDto
 from interface.IAccountInterface import IAccountService
@@ -13,10 +13,11 @@ router = APIRouter()
 @router.post("/register", response_model=ResponseDto[UserDto])
 @inject
 def register(
-    user_data: RegisterModel,
+    model: RegisterModel,
+    background_tasks : BackgroundTasks,
     account_service: IAccountService = Depends(Provide[Container.account_service]),
 ):
-    service_response = account_service.register(user_data)
+    service_response = account_service.register(model, background_tasks)
     return ResponseDto(
         message="User registered successfully", status=200, data=service_response
     )
