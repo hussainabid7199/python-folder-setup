@@ -1,4 +1,5 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
+from exceptions.HttpException import http_exception_handler
 from middleware.ClientIdMiddleware import ClientIdMiddleware
 from routes.routes import routes
 from diInjector.diExtension import Container
@@ -9,6 +10,8 @@ load_dotenv()
 app = FastAPI()
 
 app.add_middleware(ClientIdMiddleware)
+
+app.add_exception_handler(HTTPException, http_exception_handler)
 
 container = Container()
 

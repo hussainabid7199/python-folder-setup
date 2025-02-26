@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Dict
+
+from fastapi import BackgroundTasks
 from dtos.ResponseDto import ResponseDto
 from dtos.UserDto import UserDto
 from models.RegisterModel import RegisterModel
@@ -7,7 +9,7 @@ from models.RegisterModel import RegisterModel
 
 class IAccountService(ABC):
     @abstractmethod
-    def register(self, user_data: RegisterModel) -> UserDto:
+    def register(self, model: RegisterModel) -> UserDto:
         pass
 
     @abstractmethod
