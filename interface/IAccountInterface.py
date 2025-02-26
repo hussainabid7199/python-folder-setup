@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Dict
+
+from fastapi import BackgroundTasks
 from dtos.ResponseDto import ResponseDto
 from dtos.UserDto import UserDto
 from models.RegisterModel import RegisterModel

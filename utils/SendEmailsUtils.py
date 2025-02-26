@@ -13,18 +13,9 @@ load_dotenv(dotenv_path)
 EMAIL_ADDRESS = os.getenv('EMAIL_ADDRESS')
 EMAIL_PASSWORD = os.getenv('EMAIL_PASSWORD')
 
-env = Environment(loader=FileSystemLoader("templates"))
-
-def send_email(email: str, name: str, code: str):
+def send_email(email: str,  email_body):
+    print(f"📩 Attempting to send email to: {email} with subject: Verify your email")
     try:
-        
-        template = env.get_template("otp_template.html")
-        
-        email_body = template.render(
-            name = name,
-            code = code
-        )
-        
         msg = MIMEMultipart()
         msg["From"] = EMAIL_ADDRESS
         msg["To"] = email

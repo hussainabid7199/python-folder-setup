@@ -14,10 +14,9 @@ router = APIRouter()
 @inject
 def register(
     model: RegisterModel,
-    background_tasks : BackgroundTasks,
     account_service: IAccountService = Depends(Provide[Container.account_service]),
 ):
-    service_response = account_service.register(model, background_tasks)
+    service_response = account_service.register(model)
     return ResponseDto(
         message="User registered successfully", status=200, data=service_response
     )
