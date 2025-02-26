@@ -6,7 +6,7 @@ from starlette.middleware.base import BaseHTTPMiddleware
 class ClientIdMiddleware(BaseHTTPMiddleware):
     def __init__(self, app):
         super().__init__(app)
-        self.client_id = os.getenv('CLIENT_ID')
+        self.client_id = os.getenv('client-id')
 
     async def dispatch(self, request: Request, call_next):
         header_client_id = request.headers.get("client-id")
