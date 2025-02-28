@@ -32,8 +32,7 @@ class UploadService(IUploadService):
 
             # Extract text from the PDF
             extracted_text_chunks = extract_text_from_pdf(content)
-            
-            #check if the chunk extracted or not
+
             if not extracted_text_chunks or not isinstance(extracted_text_chunks, list):
                 raise HTTPException(
                 status_code=400, detail="No text found in the uploaded PDF"
