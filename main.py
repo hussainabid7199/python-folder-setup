@@ -9,14 +9,14 @@ load_dotenv()
 
 app = FastAPI()
 
-app.add_middleware(ClientIdMiddleware)
+#app.add_middleware(ClientIdMiddleware)
 
 app.add_exception_handler(HTTPException, http_exception_handler)
 
 container = Container()
 
 container.wire(modules=["controller.AccountController"])
-
+container.wire(modules=["controller.UploadController"])
 routes(app)
 
 if __name__ == "__main__":
