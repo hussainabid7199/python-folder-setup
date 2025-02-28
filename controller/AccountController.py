@@ -7,10 +7,10 @@ from models.LoginModel import LoginModel
 from models.RegisterModel import RegisterModel
 from dtos.ResponseDto import ListResponseDto, ResponseDto
 
-router = APIRouter()
+AccountRouter = APIRouter()
 
 
-@router.post("/register", response_model=ResponseDto[UserDto])
+@AccountRouter.post("/register", response_model=ResponseDto[UserDto])
 @inject
 def register(
     model: RegisterModel,
@@ -22,7 +22,7 @@ def register(
     )
 
 
-@router.post("/login", response_model=ResponseDto[UserDto])
+@AccountRouter.post("/login", response_model=ResponseDto[UserDto])
 @inject
 def login(
     model: LoginModel,
@@ -34,7 +34,7 @@ def login(
     return {"message": "Success", "status": 200, "data": response}
 
 
-@router.get("/ping", response_model=ResponseDto[ListResponseDto[UserDto]])
+@AccountRouter.get("/ping", response_model=ResponseDto[ListResponseDto[UserDto]])
 def ping():
     return {
         "message": "Pong!",
