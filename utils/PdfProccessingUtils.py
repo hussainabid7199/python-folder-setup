@@ -5,7 +5,7 @@ import io
 import pytesseract
 from pdf2image import convert_from_bytes
 from concurrent.futures import ThreadPoolExecutor
-from utils.CheckPdfUtils import check_pdf_type
+from utils.CheckFileTypeUtils import check_pdf_type
 
 
 def extract_text_from_pdf(content: bytes) -> list:

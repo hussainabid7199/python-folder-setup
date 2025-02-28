@@ -1,25 +1,30 @@
 import os
 import sys
+from dotenv import load_dotenv
 from fastapi import HTTPException, UploadFile
 from fastapi.responses import JSONResponse
 from dtos.UploadDto import UploadDto
 from interface.IUploadInterface import IUploadService
 from models.UploadModel import UploadModel
-from utils.CheckPdfUtils import check_pdf_type
+from utils.CheckFileTypeUtils import check_pdf_type
 from utils.ChunkTextUtils import chunk_text
 from utils.EmbeddingChunksUtils import generate_and_store_chunks_embedding
 from utils.PdfProccessingUtils import extract_text_from_pdf
-from bucket.AWSBucket import get_aws_bucket
+from bucket.AWSBucket import AWSbucket
 
-sys.path.append(
-    os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "bucket"))
-)
+dotenv_path = ".env"
+load_dotenv(dotenv_path=dotenv_path)
+
+bucket_name = os.getenv("BUCKET_NAME")
 
 class UploadService(IUploadService):
     def __init__(self):
-        self.s3_client = get_aws_bucket()
-        
-    async def upload_pdf(file: UploadFile, self, model: UploadModel) -> UploadDto:
+        aws_bucket = AWSbucket()
+
+        self.s3_client = aws_bucket.get_aws_bucket()
+        self.s3_client = bucket_name
+
+    async def upload(self, file: UploadFile, model: UploadModel) -> UploadDto:
         try:
             check_pdf_type(file)
 
@@ -32,19 +37,19 @@ class UploadService(IUploadService):
                 raise HTTPException(
                 status_code=400, detail="No text found in the uploaded PDF"
             )
-                  
+
             file_id = self.s3_client.upload_file(model.file.filename, model.content)
             chunk_size = 500
             text_chunks = chunk_text(extracted_text_chunks, chunk_size=chunk_size)
 
             if not text_chunks:
-                 raise HTTPException(status_code=400, detail="Failed to extract text chunks")
+                raise HTTPException(status_code=400, detail="Failed to extract text chunks")
 
             # Generate and store embeddings
             embedding_response = generate_and_store_chunks_embedding(file_id, text_chunks)
 
             if embedding_response["status"] == "error":
-                   raise HTTPException(status_code=500, detail=embedding_response["error"])
+                raise HTTPException(status_code=500, detail=embedding_response["error"])
 
             return JSONResponse(
             content={
@@ -56,7 +61,7 @@ class UploadService(IUploadService):
             },
             status_code=200,
             )
-            
+
         except HTTPException as e:
             raise e
         except Exception as e:

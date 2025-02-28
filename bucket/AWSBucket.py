@@ -8,6 +8,7 @@ load_dotenv(dotenv_path)
 
 aws_access_Key = os.getenv("ACCESS_AWS_SECURITY_KEY_ID")
 aws_secret_access_Key = os.getenv("ACCESS_AWS_KEY_ID")
+bucketName = os.getenv("BUCKET_NAME")
 region = "us-east-1"
 
 
@@ -20,7 +21,7 @@ class AWSbucket:
             region_name=region,
         )
 
-        bucket_name = "smartpdfsearchmanagementproject"
+        bucket_name = bucketName
 
         buckets = [bucket["Name"] for bucket in s3.list_buckets()["Buckets"]]
 

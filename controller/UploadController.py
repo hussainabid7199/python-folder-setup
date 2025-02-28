@@ -6,9 +6,9 @@ from dtos.UploadDto import UploadDto
 from interface.IUploadInterface import IUploadService
 from models.UploadModel import UploadModel
 
-router = APIRouter()
+UploadRouter = APIRouter()
 
-@router.post("/upload", response_model=ResponseDto[UploadDto])
+@UploadRouter.post("/upload", response_model=ResponseDto[UploadDto])
 @inject
 def upload(
     model: UploadModel,
