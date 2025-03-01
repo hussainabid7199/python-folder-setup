@@ -6,6 +6,9 @@ from bucket.PineConeBucket import getPinecone
 
 model = SentenceTransformer("all-MiniLM-L6-v2")
 index = getPinecone()
+if index is None:
+    raise ValueError("Failed to initialize Pinecone index. Check API key and environment settings.")
+
 
 def generate_and_store_embedding(file_id: str, text: str, metadata: dict = None):
     try:

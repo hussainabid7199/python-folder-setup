@@ -6,7 +6,7 @@ from sentence_transformers import SentenceTransformer
 import numpy as np
 from typing import List
 
-dotenv_path = "backend\.env"
+dotenv_path = ".env"
 load_dotenv(dotenv_path=dotenv_path)
 
 api_key = os.getenv("PINECONE_API_KEY")
@@ -35,8 +35,8 @@ def getPinecone():
                     region=environment,
                 ),
             )
-            print(f"Using index: {INDEX_NAME}")
-            return pinecone.Index(INDEX_NAME)
+        print(f"Using index: {INDEX_NAME}")
+        return pinecone.Index(INDEX_NAME)
     except Exception as e:
         print(f"Error during index setup: {e}")
         raise
