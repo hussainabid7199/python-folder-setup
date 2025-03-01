@@ -1,7 +1,5 @@
-from fastapi import UploadFile
-from pydantic import BaseModel
+from fastapi import File, UploadFile
+from pydantic import BaseModel, FilePath
 
 class UploadModel(BaseModel):
-    filename: str
-    content: str
-    file: UploadFile
+    file: UploadFile = File(...)

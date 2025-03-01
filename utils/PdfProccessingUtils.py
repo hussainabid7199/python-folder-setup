@@ -14,7 +14,7 @@ def extract_text_from_pdf(content: bytes) -> list:
             raise ValueError("Uploaded file is empty")
 
         pdf_file = io.BytesIO(content)
-        check_pdf_type(pdf_file)
+        # check_pdf_type(pdf_file)
         pdf_reader = PyPDF2.PdfReader(pdf_file)
 
         if len(pdf_reader.pages) == 0:

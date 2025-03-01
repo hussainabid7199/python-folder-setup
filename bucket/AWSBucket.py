@@ -12,7 +12,7 @@ bucketName = os.getenv("BUCKET_NAME")
 region = "us-east-1"
 
 
-class AWSbucket:
+class awsBucket:
     def get_aws_bucket(self):
         s3 = boto3.client(
             "s3",
