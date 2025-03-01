@@ -17,6 +17,7 @@ container = Container()
 
 container.wire(modules=["controller.AccountController"])
 container.wire(modules=["controller.UploadController"])
+container.wire(modules=["controller.ChatController"])
 routes(app)
 
 if __name__ == "__main__":
