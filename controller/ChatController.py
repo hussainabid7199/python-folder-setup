@@ -14,8 +14,7 @@ def chat(
     model: ChatModel,
     chat_service: IChatService = Depends(Provide[Container.chat_service]),
 ):
-    input_text = model.query
-    service_response = chat_service.chat(input_text)
+    service_response = chat_service.chat(model)
     return ResponseDto(
         message="start chating", status=200, data=service_response
     )

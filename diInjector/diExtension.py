@@ -8,4 +8,4 @@ class Container(containers.DeclarativeContainer):
     db = providers.Singleton(dbConnection)  
     account_service = providers.Factory(AccountService, db=db)
     upload_service = providers.Factory(UploadService, db=db)
-    chat_service = providers.Factory(ChatService, db=db)
+    chat_service = providers.Factory(ChatService)

@@ -11,12 +11,12 @@ openai.api_key = os.getenv("OPEN_AI_API_KEY")
 print(f"OpenAI API Key: {openai.api_key}")
 
 
-def generate_answer_from_paragraphs(paragraphs: List[str], query: str) -> str:
+def generate_answer_from_query(query: str, chunks: List[str]) -> str:
     try:
         # Combine paragraphs into the context prompt
-        prompt = f"Answer the following question based on the context:\n\n"
-        prompt += "\n\n".join(paragraphs)
-        prompt += f"\n\nQuestion: {query}\nAnswer:"
+        prompt = f"Answer the following user query based on the context:\n\n"
+        prompt += "\n\n".join(chunks)
+        prompt += f"\n\nquery: {query}\nAnswer:"
 
         # OpenAI API call
         response = openai.ChatCompletion.create(

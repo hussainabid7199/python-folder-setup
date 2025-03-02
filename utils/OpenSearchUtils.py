@@ -16,17 +16,19 @@ def index_document(document):
     except Exception as e:
         return {"status": "error", "message": str(e)}
 
-def search_keyword(keyword):
+def search_keyword(index_name, query):
     """Performs keyword-based search."""
     query = {
-        "query": {
-            "match": {
-                "chunk": keyword
+                "query": {
+                    "multi_match": {
+                        "query": query,
+                        "fields": ["chunk"]  # Adjust field name if different
+                    }
+                },
+                "size": 5  # Match Pinecone's top_k
             }
-        }
-    }
     try:
         response = opensearch_client.search(index=index_name, body=query)
-        return {"status": "success", "hits": response["hits"]["hits"]}
+        return [hit["_source"]["content"] for hit in response["hits"]["hits"]]
     except Exception as e:
         return {"status": "error", "message": str(e)}

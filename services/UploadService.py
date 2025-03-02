@@ -32,7 +32,7 @@ class UploadService(IUploadService):
         aws_bucket = AWSbucket()
 
         self.s3_client = aws_bucket.get_aws_bucket()
-        # self.s3_client = bucket_name
+
         # Get S3 client with proper error handling
         if not self.s3_client:
             logger.error("Failed to initialize AWS S3 client")
@@ -56,8 +56,6 @@ class UploadService(IUploadService):
                 status_code=400, detail="No text found in the uploaded PDF"
             )
 
-            # file_id = self.s3_client.upload_file(model.file.filename, model.content)
-            # Upload file to S3
             file_path = f"uploads/{file.filename}"  # S3 path
             try:
                 self.s3_client.put_object(Bucket=self.bucket_name, Key=file_path, Body=content)
@@ -83,14 +81,15 @@ class UploadService(IUploadService):
             
             # Index chunks into OpenSearch
             indexed_chunks = []
+            i=0
             for chunk in text_chunks:
                 document = {
-                    # "file_id": file_id,
-                    "file_id": file_path,
+                    "file_id": f"file_id_{file_path}_chunk_{i}",
                     "filename": file.filename,
                     "chunk": chunk
                 }
-                
+                i+=1
+
                 index_response = index_document(document)
                 
                 if index_response["status"] == "error":
@@ -103,7 +102,6 @@ class UploadService(IUploadService):
             content={
                 "status": "success",
                 "num_chunks": len(text_chunks),
-                # "file_id": file_id,
                 "file_id": file_path,
                 "message": f"Processed and uploaded PDF '{file.filename}' successfully",
                 "chunks": text_chunks[:5],
@@ -114,6 +112,3 @@ class UploadService(IUploadService):
         except HTTPException as e:
             logger.error(f"HTTP Exception: {e.detail}", exc_info=True)
             raise e
-        except Exception as e:
-            logger.critical(f"Unexpected internal error: {str(e)}", exc_info=True)
-            raise HTTPException(status_code=500, detail=f"Internal server error: {str(e)}")
