@@ -5,5 +5,5 @@ from models.UploadModel import UploadModel
 
 class IUploadService(ABC):
     @abstractmethod
-    async def upload(self, file: UploadFile, model: UploadModel) -> UploadDto:
+    async def upload(self, file: UploadFile) -> UploadDto:
         pass

@@ -1,6 +1,7 @@
 from fastapi import APIRouter, BackgroundTasks, Depends
 from dependency_injector.wiring import inject, Provide
 from dtos.UserDto import UserDto
+from exceptions.CustomError import custom_error
 from interface.IAccountInterface import IAccountService
 from diInjector.diExtension import Container
 from models.LoginModel import LoginModel
@@ -10,38 +11,62 @@ from dtos.ResponseDto import ListResponseDto, ResponseDto
 accountRouter = APIRouter()
 
 
-@accountRouter.post("/register", response_model=ResponseDto[UserDto])
+@accountRouter.post("/register", response_model=ResponseDto[UserDto], status_code=201)
 @inject
 def register(
     model: RegisterModel,
     account_service: IAccountService = Depends(Provide[Container.account_service]),
 ):
-    service_response = account_service.register(model)
-    return ResponseDto(
-        message="User registered successfully", status=200, data=service_response
-    )
+    try:
+        service_response = account_service.register(model)
+        return ResponseDto(
+            message="User registered successfully",
+            status="success",
+            statusCode=201,
+            data=service_response,
+        )
+    except Exception as e:
+        return custom_error(e)
 
 
-@accountRouter.post("/login", response_model=ResponseDto[UserDto])
+@accountRouter.post("/login", response_model=ResponseDto[UserDto], status_code=201)
 @inject
 def login(
     model: LoginModel,
     account_service: IAccountService = Depends(Provide[Container.account_service]),
 ):
-    response = account_service.login(model)
-    if response is None:
-        return {"message": "Unauthorize", "status": 401, "data": {}}
-    return {"message": "Success", "status": 200, "data": response}
+    try:
+        response = account_service.login(model)
+        if response is None:
+            return ResponseDto(
+                message="Unauthorized", 
+                status="failed", 
+                statusCode=401, 
+                data=None
+            )
+        return ResponseDto(
+            message="Success", 
+            status="success", 
+            statusCode=201, 
+            data=response
+        )
+    
+    except Exception as e:
+        return custom_error(e)
 
 
-@accountRouter.get("/ping", response_model=ResponseDto[ListResponseDto[UserDto]])
+@accountRouter.get(
+    "/ping", response_model=ResponseDto[ListResponseDto[UserDto]], status_code=200
+)
 def ping():
-    return {
-        "message": "Pong!",
-        "status": 200,
-        "data": {
-            "totalRecord": 2,
-            "data": [
+     try:
+        return ResponseDto(
+            message="Pong!", 
+            status="success", 
+            statusCode=200, 
+            data=ListResponseDto(
+                totalRecord=2,
+                data= [
                 {
                     "id": "1",
                     "name": "harsh",
@@ -55,5 +80,7 @@ def ping():
                     "password": "john@example.com",
                 },
             ],
-        },
-    }
+          )
+        )
+     except Exception as e:
+        return custom_error(e)

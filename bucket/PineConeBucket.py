@@ -1,10 +1,6 @@
 import os
-import numpy as np
 from dotenv import load_dotenv
 from pinecone import Pinecone, ServerlessSpec
-from sentence_transformers import SentenceTransformer
-import numpy as np
-from typing import List
 
 dotenv_path = ".env"
 load_dotenv(dotenv_path=dotenv_path)

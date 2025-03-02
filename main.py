@@ -12,10 +12,6 @@ app = FastAPI()
 
 app.add_exception_handler(HTTPException, http_exception_handler)
 
-
-container.wire(modules=["controller.AccountController"])
-container.wire(modules=["controller.UploadController"])
-container.wire(modules=["controller.ChatController"])
 routes(app)
 
 if __name__ == "__main__":
