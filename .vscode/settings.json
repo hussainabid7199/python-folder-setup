@@ -1,0 +1,8 @@
+{
+    "cSpell.words": [
+        "dotenv"
+    ],
+    "python.analysis.extraPaths": [
+        "./bucket"
+    ]
+}

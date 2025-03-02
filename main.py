@@ -1,17 +1,20 @@
-from diInjector.diExtension import Container 
-from fastapi import FastAPI
-from fastapi import APIRouter, Depends
+from fastapi import FastAPI, HTTPException
+from exceptions.HttpException import http_exception_handler
+from middleware.ClientIdMiddleware import ClientIdMiddleware
+from routes.routes import routes
+from dotenv import load_dotenv
 
-# Initialize Dependency Injection container
-container = Container()
-router = APIRouter()
-# Create FastAPI app
+load_dotenv()
+
 app = FastAPI()
 
-# Wire dependencies
-container.wire(modules=["controller.AccountController"])
+#app.add_middleware(ClientIdMiddleware)
 
-# Register router
-app.include_router(router, prefix="/account")
+app.add_exception_handler(HTTPException, http_exception_handler)
 
-print("Router registered successfully!")
+routes(app)
+
+if __name__ == "__main__":
+    import uvicorn
+    print("🚀 Server running at http://127.0.0.1:8000")
+    uvicorn.run("main:app", host="127.0.0.1", port=8000, reload=True)
