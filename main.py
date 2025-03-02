@@ -12,7 +12,6 @@ app = FastAPI()
 
 app.add_exception_handler(HTTPException, http_exception_handler)
 
-
 routes(app)
 
 if __name__ == "__main__":

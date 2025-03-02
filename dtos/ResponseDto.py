@@ -5,7 +5,8 @@ T = TypeVar("T")
 
 class ResponseDto(BaseModel, Generic[T]):
     message: str;
-    status: int;
+    status: str;
+    statusCode: int
     data: Optional[T] = None;
 
 class ListResponseDto(BaseModel, Generic[T]):

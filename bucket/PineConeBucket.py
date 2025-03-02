@@ -1,12 +1,8 @@
 import os
-import numpy as np
 from dotenv import load_dotenv
 from pinecone import Pinecone, ServerlessSpec
-from sentence_transformers import SentenceTransformer
-import numpy as np
-from typing import List
 
-dotenv_path = "backend\.env"
+dotenv_path = ".env"
 load_dotenv(dotenv_path=dotenv_path)
 
 api_key = os.getenv("PINECONE_API_KEY")
@@ -20,7 +16,6 @@ pinecone = Pinecone(api_key=api_key)
 INDEX_NAME = "pdf-search-index"
 if not isinstance(INDEX_NAME, str):
     raise ValueError("INDEX_NAME must be a valid string.")
-
 
 class pineCone:
     def getPinecone():

@@ -1,6 +1,8 @@
-from fastapi import UploadFile
-from pydantic import BaseModel, field_validator
-from utils.CheckFileTypeUtils import check_pdf_type
+from pydantic import BaseModel
+from typing import List
 
 class UploadDto(BaseModel):
-    file: UploadFile
+    file_name: str
+    num_chunks: int
+    file_id: str
+    chunks: List[str]
