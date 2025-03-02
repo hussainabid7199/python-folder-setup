@@ -1,5 +1,6 @@
 from fastapi import APIRouter, BackgroundTasks, Depends
 from dependency_injector.wiring import inject, Provide
+from dtos.LoginDto import LoginDto
 from dtos.UserDto import UserDto
 from interface.IAccountInterface import IAccountService
 from diInjector.diExtension import Container
@@ -22,7 +23,7 @@ def register(
     )
 
 
-@AccountRouter.post("/login", response_model=ResponseDto[UserDto])
+@AccountRouter.post("/login", response_model=ResponseDto[LoginDto])
 @inject
 def login(
     model: LoginModel,

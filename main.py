@@ -18,6 +18,11 @@ container = Container()
 container.wire(modules=["controller.AccountController"])
 container.wire(modules=["controller.UploadController"])
 container.wire(modules=["controller.ChatController"])
+container.wire(modules=["controller.VerificationController"])
+container.wire(modules=["controller.FindUserController"])
+container.wire(modules=["controller.UpdateUserController"])
+container.wire(modules=["controller.DeleteUserController"])
+
 routes(app)
 
 if __name__ == "__main__":

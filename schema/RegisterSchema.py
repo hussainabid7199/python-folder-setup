@@ -6,4 +6,4 @@ Registerschema = {
     "password": {"type": "string", "minlength": 6, "maxlength": 14, "required": True},
 }
 
-validator = Validator(Registerschema)
+registervalidator = Validator(Registerschema)

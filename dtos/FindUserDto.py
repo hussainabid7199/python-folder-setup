@@ -1,7 +1,8 @@
 from pydantic import BaseModel
 
-class LoginDto(BaseModel):
+
+class FindUserDto(BaseModel):
     id: str
     name: str
     email: str
-    token: str
+    is_verified: bool

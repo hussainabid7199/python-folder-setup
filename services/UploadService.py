@@ -32,8 +32,6 @@ class UploadService(IUploadService):
         aws_bucket = AWSbucket()
 
         self.s3_client = aws_bucket.get_aws_bucket()
-        # self.s3_client = bucket_name
-        # Get S3 client with proper error handling
         if not self.s3_client:
             logger.error("Failed to initialize AWS S3 client")
             raise HTTPException(status_code=500, detail="Failed to initialize AWS S3 client")
@@ -56,8 +54,6 @@ class UploadService(IUploadService):
                 status_code=400, detail="No text found in the uploaded PDF"
             )
 
-            # file_id = self.s3_client.upload_file(model.file.filename, model.content)
-            # Upload file to S3
             file_path = f"uploads/{file.filename}"  # S3 path
             try:
                 self.s3_client.put_object(Bucket=self.bucket_name, Key=file_path, Body=content)
@@ -72,8 +68,6 @@ class UploadService(IUploadService):
                 logger.error(f"Failed to extract text chunks for file: {file.filename}")
                 raise HTTPException(status_code=400, detail="Failed to extract text chunks")
 
-            # Generate and store embeddings
-            # embedding_response = generate_and_store_chunks_embedding(file_id, text_chunks)
             logger.info(f"Generating embeddings for {len(text_chunks)} chunks.")
             embedding_response = generate_and_store_chunks_embedding(file_path, text_chunks)
 
@@ -103,7 +97,6 @@ class UploadService(IUploadService):
             content={
                 "status": "success",
                 "num_chunks": len(text_chunks),
-                # "file_id": file_id,
                 "file_id": file_path,
                 "message": f"Processed and uploaded PDF '{file.filename}' successfully",
                 "chunks": text_chunks[:5],
