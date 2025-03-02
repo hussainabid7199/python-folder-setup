@@ -5,10 +5,11 @@ from dtos.ResponseDto import ResponseDto
 from dtos.UploadDto import UploadDto
 from interface.IUploadInterface import IUploadService
 from models.UploadModel import UploadModel
+import logging
 
-UploadRouter = APIRouter()
+uploadRouter = APIRouter()
 
-@UploadRouter.post("/upload", response_model=ResponseDto[UploadDto])
+@uploadRouter.post("/upload", response_model=ResponseDto[dict])
 @inject
 async def upload(
     file: UploadFile = File(...),
@@ -25,6 +26,7 @@ async def upload(
     )
     # Call the asynchronous upload service
     service_response = await upload_service.upload(file, model)
+    
     return ResponseDto(
         message="File Uploaded Successfully", 
         status=200

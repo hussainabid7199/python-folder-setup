@@ -1,8 +1,13 @@
-from controller.AccountController import AccountRouter;
+from controller.AccountController import accountRouter;
 from controller.ChatController import ChatRouter
-from controller.UploadController import UploadRouter;
+from controller.UploadController import uploadRouter
+from diInjector.diExtension import Container;
 
+container = Container()
+
+container.wire(modules=["controller.AccountController"])
+container.wire(modules=["controller.UploadController"])
 def routes(app):
-    app.include_router(AccountRouter, prefix="/account")
-    app.include_router(UploadRouter)
+    app.include_router(accountRouter, prefix="/account")
+    app.include_router(uploadRouter)
     app.include_router(ChatRouter)

@@ -21,22 +21,23 @@ INDEX_NAME = "pdf-search-index"
 if not isinstance(INDEX_NAME, str):
     raise ValueError("INDEX_NAME must be a valid string.")
 
-def getPinecone():
-    try:
-        existing_indexes = [index.name for index in pinecone.list_indexes()]
-        if INDEX_NAME not in existing_indexes:
-            print(f"Creating index: {INDEX_NAME}")
-            pinecone.create_index(
-                name=INDEX_NAME,
-                dimension=384,
-                metric="cosine",
-                spec=ServerlessSpec(
-                    cloud="aws",
-                    region=environment,
-                ),
-            )
-        print(f"Using index: {INDEX_NAME}")
-        return pinecone.Index(INDEX_NAME)
-    except Exception as e:
-        print(f"Error during index setup: {e}")
-        raise
+class pineCone:
+    def getPinecone():
+        try:
+            existing_indexes = [index.name for index in pinecone.list_indexes()]
+            if INDEX_NAME not in existing_indexes:
+                print(f"Creating index: {INDEX_NAME}")
+                pinecone.create_index(
+                    name=INDEX_NAME,
+                    dimension=384,
+                    metric="cosine",
+                    spec=ServerlessSpec(
+                        cloud="aws",
+                        region=environment,
+                    ),
+                )
+            print(f"Using index: {INDEX_NAME}")
+            return pinecone.Index(INDEX_NAME)
+        except Exception as e:
+            print(f"Error during index setup: {e}")
+            raise

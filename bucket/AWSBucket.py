@@ -57,6 +57,8 @@ class AWSbucket:
         if not aws_access_Key or not aws_secret_access_Key:
             raise ValueError("AWS credentials are missing. Check your .env file.")
 
+class awsBucket:
+    def get_aws_bucket(self):
         try:
             s3 = boto3.client(
                 "s3",

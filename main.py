@@ -2,7 +2,6 @@ from fastapi import FastAPI, HTTPException
 from exceptions.HttpException import http_exception_handler
 from middleware.ClientIdMiddleware import ClientIdMiddleware
 from routes.routes import routes
-from diInjector.diExtension import Container
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -13,7 +12,6 @@ app = FastAPI()
 
 app.add_exception_handler(HTTPException, http_exception_handler)
 
-container = Container()
 
 container.wire(modules=["controller.AccountController"])
 container.wire(modules=["controller.UploadController"])
